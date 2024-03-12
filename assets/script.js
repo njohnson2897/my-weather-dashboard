@@ -12,6 +12,10 @@ function handleSearchSubmit(event) {
         console.log(`User searched for ${cityInputVal}`)
         apiRequest();
     };
+
+    const cities = readLocalStorage();
+    cities.push(cityInputVal);
+    saveToLocalStorage(cities);
 };
 
 function apiRequest() {
@@ -25,6 +29,22 @@ function apiRequest() {
         });
     });
 };
+
+function  readLocalStorage() {
+    let  cities = JSON.parse(localStorage.getItem('cities'))
+
+    if(!cities){
+        cities = [];
+    }
+    return cities;
+}
+
+function saveToLocalStorage(cities) {
+    localStorage.setItem('cities', JSON.stringify(cities));
+}
+
+
+
 
 
 

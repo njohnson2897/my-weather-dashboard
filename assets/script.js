@@ -26,7 +26,7 @@ function handleSearchSubmit(event) {
 
 function apiRequest() {
     const cityInputVal = document.querySelector('#cityInput').value;
-    let requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInputVal}&appid=8c387a43d44b729cc8e9f5084ed67cad`
+    let requestUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInputVal}&appid=8c387a43d44b729cc8e9f5084ed67cad`
     fetch(requestUrl)
         .then(function (response) {
             return response.json()
@@ -52,10 +52,10 @@ function saveToLocalStorage(cities) {
 }
 
 function printForecast(data) {
-    const cityNameDate = $('<h2>').text(data.name);
-    const cityTemp = $('<p>').text(data.main.temp);
-    const cityWind = $('<p>').text(data.wind.speed);
-    const cityHumid = $('<p>').text(data.main.humidity);
+    const cityNameDate = $('<h2>').text(data.city.name);
+    const cityTemp = $('<p>').text(data.list[0].main.temp);
+    const cityWind = $('<p>').text(data.list[0].wind.speed);
+    const cityHumid = $('<p>').text(data.list[0].main.humidity);
     mainCard.append(cityNameDate, cityTemp, cityWind, cityHumid);
 }
 

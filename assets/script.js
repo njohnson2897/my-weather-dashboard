@@ -42,7 +42,7 @@ function createSearchHistory() {
     const cities = readLocalStorage();
     for (city of cities) {
         let recentCity = $('<li>');
-        recentCity.text(city)
+        recentCity.text(city).addClass('my-3 border border-black rounded bg-dark-subtle text-center')
         searchHistory.append(recentCity)
     }
 }

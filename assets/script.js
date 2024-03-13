@@ -10,14 +10,13 @@ const searchHistory = $('#search-history')
 function handleSearchSubmit(event) {
     event.preventDefault();
 
-    const cityInputVal = document.querySelector('#cityInput').value;
+    let cityInputVal = document.querySelector('#cityInput').value;
 
     if (!cityInputVal) {
         alert("Please enter a city name into the search form.")
         return;
     } else {
-        console.log(`User searched for ${cityInputVal}`)
-        apiRequest();
+        apiRequest(cityInputVal);
     };
 
     const cities = readLocalStorage();
@@ -25,8 +24,13 @@ function handleSearchSubmit(event) {
     saveToLocalStorage(cities);
 };
 
-function apiRequest() {
-    const cityInputVal = document.querySelector('#cityInput').value;
+function handleSearchHistorySubmit(event) {
+    event.preventDefault();
+    let cityInputVal = $(event.target).text();
+    apiRequest(cityInputVal)
+}
+
+function apiRequest(cityInputVal) {
     let requestUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInputVal}&appid=8c387a43d44b729cc8e9f5084ed67cad`
     fetch(requestUrl)
         .then(function (response) {
@@ -38,11 +42,12 @@ function apiRequest() {
     });
 };
 
+
 function createSearchHistory() {
     const cities = readLocalStorage();
     for (city of cities) {
-        let recentCity = $('<li>');
-        recentCity.text(city).addClass('my-3 border border-black rounded bg-dark-subtle text-center')
+        const recentCity = $('<button>');
+        recentCity.text(city).addClass('my-2 border border-black rounded bg-dark-subtle text-center w-100 searchHistoryBtn')
         searchHistory.append(recentCity)
     }
 }
@@ -76,7 +81,7 @@ function printForecast(data) {
     dayFive.append(dayjs().add(5, 'day').format('MM/DD/YYYY'), forecast[5].main.temp, forecast[5].wind.speed, forecast[5].main.humidity);
 };
 
-
+searchHistory.on('click', 'button', handleSearchHistorySubmit)
 citySearchBtn.on('click', handleSearchSubmit);
 
 $(document).ready(function (){

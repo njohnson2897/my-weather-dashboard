@@ -12,65 +12,60 @@
 </head>
 
 <body>
-    <header class="container text-center">
+    <header class="container-fluid bg-dark  text-light mb-5 p-3 text-center">
         <h1> Weather Dashboard</h1>
     </header>
-    <main>
-        <aside>
-            <!-- https://mdbootstrap.com/docs/standard/forms/search/ -->
-            <div class="input-group">
+
+
+
+
+    <section class="container-fluid my-5">
+        <div class="row">
+            <div class="col-12 col-md-4 col-lg-3">
+                <h3>Search for a City:</h3>
                 <input type="search" id="cityInput" class="form-control rounded" placeholder="" aria-label="Search"
                     aria-describedby="search-addon" />
                 <button type="button" id='citySearchBtn' class="btn btn-outline-primary"
                     data-mdb-ripple-init>Search</button>
-            </div>
-            <div>
                 <ul id="search-history">
-                    <!-- This is where local storage will populate the recently searched cities -->
+                  
                 </ul>
             </div>
-        </aside>
-        <!-- all cards below from https://getbootstrap.com/docs/5.3/components/card/ -->
-        <div class="card">
-            <div id="current-forecast" class="card-body">
-
+            <div class="col-12 col-md-8 col-lg-9 mb-3">
+                <h3>Current Weather:</h3>
+                <div id="current-forecast" class="card mb-3">
+                    
+                </div>
+                    <div class="row">
+                        <h3>Five Day Forecast:</h3>
+                        <div id="forecast-day-one" class="col-2 card card-body">
+            
+                        </div>
+                        <div id="forecast-day-two" class="col-2 card card-body">
+            
+                        </div>
+                        <div id="forecast-day-three" class="col-2 card card-body">
+            
+                        </div>
+                        <div id="forecast-day-four" class="col-2 card card-body">
+            
+                        </div>
+                        <div id="forecast-day-five" class="col-2 card card-body">
+            
+                        </div>
             </div>
         </div>
-        <div>
-            <div class="card">
-                <div id="forecast-day-one" class="card-body">
-
-                </div>
-            </div>
-            <div class="card">
-                <div id="forecast-day-two" class="card-body">
-
-                </div>
-            </div>
-            <div class="card">
-                <div id="forecast-day-three" class="card-body">
-
-                </div>
-            </div>
-            <div class="card">
-                <div id="forecast-day-four" class="card-body">
-
-                </div>
-            </div>
-            <div id="forecast-day-five" class="card">
-                <div class="card-body">
-
-                </div>
-            </div>
+       
         </div>
+    </section>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
-            integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
-        <script src="./assets/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+        integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
+    <script src="./assets/script.js"></script>
 </body>
 
 </html>

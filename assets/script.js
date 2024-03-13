@@ -7,6 +7,7 @@ const dayFour = $('#forecast-day-four')
 const dayFive = $('#forecast-day-five')
 const searchHistory = $('#search-history')
 
+// how to clear out the past search to allow this search to populate the cards?
 function handleSearchSubmit(event) {
     event.preventDefault();
 
@@ -24,6 +25,7 @@ function handleSearchSubmit(event) {
     saveToLocalStorage(cities);
 };
 
+// how to clear out the past search to allow this search to populate the cards?
 function handleSearchHistorySubmit(event) {
     event.preventDefault();
     let cityInputVal = $(event.target).text();
@@ -42,7 +44,7 @@ function apiRequest(cityInputVal) {
     });
 };
 
-
+// how to limit this search history to only the last 10 searches?
 function createSearchHistory() {
     const cities = readLocalStorage();
     for (city of cities) {
@@ -66,7 +68,8 @@ function saveToLocalStorage(cities) {
     localStorage.setItem('cities', JSON.stringify(cities));
 }
 
-// how to use iteration to simplify this process
+// how to use iteration to simplify this process?
+// how to append the icons?
 function printForecast(data) {
     const cityName = data.city.name
     const date = dayjs().format('MM/DD/YYYY');

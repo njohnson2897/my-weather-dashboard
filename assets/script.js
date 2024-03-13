@@ -5,6 +5,8 @@ const dayTwo = $('#forecast-day-two')
 const dayThree = $('#forecast-day-three')
 const dayFour = $('#forecast-day-four')
 const dayFive = $('#forecast-day-five')
+const searchHistory = $('#search-history')
+
 
 function handleSearchSubmit(event) {
     event.preventDefault();
@@ -37,6 +39,15 @@ function apiRequest() {
     });
 };
 
+function createSearchHistory() {
+    const cities = readLocalStorage();
+    for (city of cities) {
+        let recentCity = $('<li>');
+        recentCity.text(city)
+        searchHistory.append(recentCity)
+    }
+}
+
 
 function  readLocalStorage() {
     let  cities = JSON.parse(localStorage.getItem('cities'));
@@ -65,6 +76,8 @@ function printForecast(data) {
 };
 
 
-   
-    
 citySearchBtn.on('click', handleSearchSubmit);
+
+$(document).ready(function (){
+    createSearchHistory();
+})

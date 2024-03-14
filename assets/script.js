@@ -75,12 +75,15 @@ function printForecast(data) {
     currentWeatherTitle.text(`Weather in ${data.city.name} on ${currentDate}:`)
     currentWeatherSection.append(currentWeatherTitle, currentDate)
     const currentCard = $('<div>')
-    currentCard.addClass('bg-dark-subtle mb-3 border border-white rounded')
+    currentCard.addClass('bg-dark-subtle mb-3 border border-white rounded text-center')
     const currentIcon =  $('<img>', {src: `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`})
     const currentWind = $('<p>')
     currentWind.text(`Wind: ${data.list[0].wind.speed}mph`)
     const currentTemp = $('<p>')
-    currentTemp.text(`Temp: ${data.list[0].main.temp} degrees Fahrenheit`)
+    // https://stackoverflow.com/questions/7342957/how-do-you-round-to-one-decimal-place-in-javascript found that using
+    // .... Math.round like this is a way to keep it to 1 decimal
+    const currentTempFahrenheit = Math.round((((data.list[0].main.temp - 273.15)) * 1.8 + 32) * 10) / 10
+    currentTemp.text(`Temp: ${currentTempFahrenheit} degrees Fahrenheit`)
     const currentHumid = $('<p>')
     currentHumid.text(`Humidity: ${data.list[0].main.humidity}%`)
     currentCard.append(currentIcon, currentTemp, currentWind, currentHumid)
@@ -101,7 +104,8 @@ function printForecast(data) {
         const cardHumid = $('<p>')
         cardHumid.text(`Humidity: ${data.list[i].main.humidity}%`)
         const cardTemp = $('<p>')
-        cardTemp.text(`Temp: ${data.list[i].main.temp} degrees Fahrenheit`)
+        const cardTempFahrenheit = Math.round((((data.list[i].main.temp - 273.15)) * 1.8 + 32) * 10) / 10
+        cardTemp.text(`Temp: ${cardTempFahrenheit} degrees Fahrenheit`)
         const forecastTitle = $('<h3>')
         forecastTitle.text('Five Day Forecast:')
         forecastCard.append(cardDate, cardIcon, cardTemp, cardWind, cardHumid)

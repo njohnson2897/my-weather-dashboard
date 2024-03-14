@@ -1,13 +1,7 @@
 const citySearchBtn = $('#citySearchBtn')
-const mainCard = $('#current-forecast')
-const dayOne = $('#forecast-day-one')
-const dayTwo = $('#forecast-day-two')
-const dayThree = $('#forecast-day-three')
-const dayFour = $('#forecast-day-four')
-const dayFive = $('#forecast-day-five')
 const searchHistory = $('#search-history')
 
-// how to clear out the past search to allow this search to populate the cards?
+
 function handleSearchSubmit(event) {
     event.preventDefault();
 
@@ -21,11 +15,14 @@ function handleSearchSubmit(event) {
     };
 
     const cities = readLocalStorage();
+        if (cities.length > 10) {
+            cities.pop();
+        }
     cities.push(cityInputVal);
     saveToLocalStorage(cities);
 };
 
-// how to clear out the past search to allow this search to populate the cards?
+
 function handleSearchHistorySubmit(event) {
     event.preventDefault();
     let cityInputVal = $(event.target).text();
@@ -44,7 +41,6 @@ function apiRequest(cityInputVal) {
     });
 };
 
-// how to limit this search history to only the last 10 searches?
 function createSearchHistory() {
     const cities = readLocalStorage();
     for (city of cities) {
@@ -68,20 +64,49 @@ function saveToLocalStorage(cities) {
     localStorage.setItem('cities', JSON.stringify(cities));
 }
 
-// how to use iteration to simplify this process?
-// how to append the icons?
 function printForecast(data) {
-    const cityName = data.city.name
-    const date = dayjs().format('MM/DD/YYYY');
-    
-    const forecast = [data.list[0], data.list[7], data.list[15], data.list[23], data.list[31], data.list[39]];
-    
-    mainCard.append(cityName, date, forecast[0].main.temp, forecast[0].wind.speed, forecast[0].main.humidity);
-    dayOne.append(dayjs().add(1, 'day').format('MM/DD/YYYY'), forecast[1].main.temp,  forecast[1].wind.speed, forecast[1].main.humidity);
-    dayTwo.append(dayjs().add(2, 'day').format('MM/DD/YYYY'), forecast[2].main.temp, forecast[2].wind.speed, forecast[2].main.humidity);
-    dayThree.append(dayjs().add(3, 'day').format('MM/DD/YYYY'), forecast[3].main.temp, forecast[3].wind.speed, forecast[3].main.humidity);
-    dayFour.append(dayjs().add(4, 'day').format('MM/DD/YYYY'), forecast[4].main.temp, forecast[4].wind.speed, forecast[4].main.humidity);
-    dayFive.append(dayjs().add(5, 'day').format('MM/DD/YYYY'), forecast[5].main.temp, forecast[5].wind.speed, forecast[5].main.humidity);
+    const forecastCardSection = $('#five-day-forecast')
+    const currentWeatherSection = $('#current-forecast')
+    forecastCardSection.empty();
+    currentWeatherSection.empty()
+   
+    const currentWeatherTitle = $('<h3>')
+    const currentDate = dayjs().format('MM/DD/YYYY')
+    currentWeatherTitle.text(`Weather in ${data.city.name} on ${currentDate}:`)
+    currentWeatherSection.append(currentWeatherTitle, currentDate)
+    const currentCard = $('<div>')
+    currentCard.addClass('bg-dark-subtle mb-3 border border-white rounded')
+    const currentIcon =  $('<img>', {src: `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`})
+    const currentWind = $('<p>')
+    currentWind.text(`Wind: ${data.list[0].wind.speed}mph`)
+    const currentTemp = $('<p>')
+    currentTemp.text(`Temp: ${data.list[0].main.temp} degrees Fahrenheit`)
+    const currentHumid = $('<p>')
+    currentHumid.text(`Humidity: ${data.list[0].main.humidity}%`)
+    currentCard.append(currentIcon, currentTemp, currentWind, currentHumid)
+    currentWeatherSection.append(currentCard)
+
+
+    const forecastTitle = $('<h3>')
+    forecastTitle.text('Five Day Forecast:')
+    forecastCardSection.append(forecastTitle)
+
+    for (let i=7; i<data.list.length; i+=8) {
+        const forecastCard = $('<div>')
+        forecastCard.addClass('col-2 bg-dark-subtle mx-2 border border-white rounded')
+        const cardDate = $('<p>').text((dayjs.unix(data.list[i].dt).format('MM/DD/YYYY')));
+        const cardIcon = $('<img>', {src: `https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png`})
+        const cardWind = $('<p>')
+        cardWind.text(`Wind: ${data.list[i].wind.speed}mph`)
+        const cardHumid = $('<p>')
+        cardHumid.text(`Humidity: ${data.list[i].main.humidity}%`)
+        const cardTemp = $('<p>')
+        cardTemp.text(`Temp: ${data.list[i].main.temp} degrees Fahrenheit`)
+        const forecastTitle = $('<h3>')
+        forecastTitle.text('Five Day Forecast:')
+        forecastCard.append(cardDate, cardIcon, cardTemp, cardWind, cardHumid)
+        forecastCardSection.append(forecastCard);
+    }
 };
 
 searchHistory.on('click', 'button', handleSearchHistorySubmit)
